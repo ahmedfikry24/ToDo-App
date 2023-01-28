@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/listIcon"
+        android:icon="@drawable/icon_list"
+        android:iconTint="@color/blue"
+        android:title="Todo" />
+    <item
+        android:id="@+id/settingsIcon"
+        android:icon="@drawable/icon_settings"
+        android:iconTint="@color/blue"
+        android:title="settings" />
+</menu>
