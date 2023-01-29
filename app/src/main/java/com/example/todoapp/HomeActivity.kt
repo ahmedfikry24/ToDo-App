@@ -1,6 +1,7 @@
 package com.example.todoapp
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.todoapp.fragments.BottomSheet
@@ -12,6 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class HomeActivity : AppCompatActivity() {
     lateinit var bottomNavigation: BottomNavigationView
     lateinit var addButton: FloatingActionButton
+    lateinit var titleText: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -24,6 +26,8 @@ class HomeActivity : AppCompatActivity() {
     fun init() {
         bottomNavigation = findViewById(R.id.main_botton_navigation)
         addButton = findViewById(R.id.floating_button)
+        titleText = findViewById(R.id.title_text)
+        titleText.text = "Tasks List"
     }
 
     fun replaceFragments(fragment: Fragment) {
@@ -36,9 +40,11 @@ class HomeActivity : AppCompatActivity() {
         bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.listIcon -> {
+                    titleText.text = "Tasks List"
                     replaceFragments(ListTodoFragment())
                 }
                 else -> {
+                    titleText.text = "Settings"
                     replaceFragments(SettingsFragment())
                 }
             }

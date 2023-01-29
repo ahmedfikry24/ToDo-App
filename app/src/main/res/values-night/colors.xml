@@ -8,5 +8,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="unvisiable">#00FFFFFF</color>
     <color name="navy">#141922</color>
-    <color name="background">@color/green</color>
+    <color name="background">@color/navy</color>
 </resources>
