@@ -7,14 +7,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.DatePicker
 import android.widget.TextView
 import com.example.todoapp.R
+import com.example.todoapp.database.TaskDatabase
+import com.example.todoapp.database.model.Tasks
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.textfield.TextInputLayout
 import java.util.*
 
 class BottomSheet : BottomSheetDialogFragment() {
     lateinit var date: TextView
+    lateinit var title: TextInputLayout
+    lateinit var descreption: TextInputLayout
+    lateinit var addTaskButton: Button
     var timeNow: Calendar = Calendar.getInstance()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +43,10 @@ class BottomSheet : BottomSheetDialogFragment() {
         date.text = "${timeNow.get(Calendar.DAY_OF_MONTH)} / ${timeNow.get(Calendar.MONTH) + 1} / ${
             timeNow.get(Calendar.YEAR)
         }"
+        title = view.findViewById(R.id.title_textInput)
+        descreption = view.findViewById(R.id.des_textInput)
+        addTaskButton = view.findViewById(R.id.set_date_button)
+
     }
 
     fun initListeners() {
@@ -45,6 +56,7 @@ class BottomSheet : BottomSheetDialogFragment() {
                 object : OnDateSetListener {
                     override fun onDateSet(p0: DatePicker?, year: Int, month: Int, day: Int) {
                         date.text = "$day / ${month + 1} / $year"
+                        timeNow.set(year, month, day)
                     }
                 },
                 timeNow.get(Calendar.YEAR),
@@ -52,5 +64,40 @@ class BottomSheet : BottomSheetDialogFragment() {
                 timeNow.get(Calendar.DAY_OF_MONTH)
             ).show()
         }
+        addTaskButton.setOnClickListener {
+            if (!validate()) return@setOnClickListener
+            addTask()
+            // AlertDialog.Builder(activity).set
+        }
+    }
+
+    fun validate(): Boolean {
+        var isValidate: Boolean = true
+        if (title.editText?.text.isNullOrBlank()) {
+            isValidate = false
+            title.editText?.error = "required this field"
+            return isValidate
+        } else {
+            title.editText?.error = null
+        }
+
+        if (descreption.editText?.text.isNullOrBlank()) {
+            isValidate = false
+            title.editText?.error = "required this field"
+            return isValidate
+        } else {
+            descreption.editText?.error = null
+        }
+        return isValidate
+    }
+
+    fun addTask() {
+        TaskDatabase.createDatabase(requireContext()).tasksDao().addTask(
+            Tasks(
+                title = title.editText?.text.toString(),
+                description = descreption.editText?.text.toString(),
+                date = timeNow.timeInMillis,
+            )
+        )
     }
 }

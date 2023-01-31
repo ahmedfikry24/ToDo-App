@@ -14,6 +14,6 @@ interface TasksDao {
     @Update
     fun updateTask(tasks: Tasks)
 
-    @Query("select * from Tasks")
-    fun getTasks()
+    @Query("SELECT * FROM Tasks")
+    fun getTasks(): List<Tasks>
 }
