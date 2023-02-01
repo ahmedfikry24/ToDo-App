@@ -14,12 +14,13 @@ class HomeActivity : AppCompatActivity() {
     lateinit var bottomNavigation: BottomNavigationView
     lateinit var addButton: FloatingActionButton
     lateinit var titleText: TextView
+    var tasksListFragment = ListTodoFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         init()
         initListeners()
-        replaceFragments(ListTodoFragment())
+        replaceFragments(tasksListFragment)
 
     }
 
@@ -41,7 +42,7 @@ class HomeActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.listIcon -> {
                     titleText.text = "Tasks List"
-                    replaceFragments(ListTodoFragment())
+                    replaceFragments(tasksListFragment)
                 }
                 else -> {
                     titleText.text = "Settings"
@@ -52,7 +53,14 @@ class HomeActivity : AppCompatActivity() {
         }
 
         addButton.setOnClickListener {
-            val bottomSheet = BottomSheet().show(supportFragmentManager, "")
+            val bottomSheetDialog: BottomSheet = BottomSheet()
+            bottomSheetDialog.show(supportFragmentManager, "")
+            bottomSheetDialog.DismissListener = object : BottomSheet.OnDismissListener {
+                override fun onDismiss() {
+                    tasksListFragment.getTasks()
+                }
+
+            }
         }
     }
 

@@ -1,8 +1,10 @@
 package com.example.todoapp.fragments
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,6 +39,15 @@ class BottomSheet : BottomSheetDialogFragment() {
 
     }
 
+    var DismissListener: OnDismissListener? = null
+    override fun onDismiss(dialog: DialogInterface) {
+        DismissListener?.onDismiss()
+    }
+
+    interface OnDismissListener {
+        fun onDismiss()
+    }
+
     @SuppressLint("SetTextI18n")
     fun init(view: View) {
         date = view.findViewById(R.id.date_text)
@@ -67,7 +78,14 @@ class BottomSheet : BottomSheetDialogFragment() {
         addTaskButton.setOnClickListener {
             if (!validate()) return@setOnClickListener
             addTask()
-            // AlertDialog.Builder(activity).set
+            AlertDialog.Builder(activity).setMessage("task added successfully")
+                .setIcon(R.drawable.icon_check)
+                .setPositiveButton(
+                    R.string.ok
+                ) { p0, p1 ->
+                    p0.dismiss()
+                    dismiss()
+                }.show().setCancelable(false)
         }
     }
 
