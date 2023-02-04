@@ -57,7 +57,7 @@ class HomeActivity : AppCompatActivity() {
             bottomSheetDialog.show(supportFragmentManager, "")
             bottomSheetDialog.DismissListener = object : BottomSheet.OnDismissListener {
                 override fun onDismiss() {
-                    tasksListFragment.getTasks()
+                    tasksListFragment.getTasksByDate()
                 }
 
             }

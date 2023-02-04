@@ -3,14 +3,12 @@ package com.example.todoapp.fragments
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.app.DatePickerDialog.OnDateSetListener
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.DatePicker
 import android.widget.TextView
 import com.example.todoapp.R
 import com.example.todoapp.database.TaskDatabase
@@ -60,15 +58,14 @@ class BottomSheet : BottomSheetDialogFragment() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     fun initListeners() {
         date.setOnClickListener {
             DatePickerDialog(
                 requireContext(),
-                object : OnDateSetListener {
-                    override fun onDateSet(p0: DatePicker?, year: Int, month: Int, day: Int) {
-                        date.text = "$day / ${month + 1} / $year"
-                        timeNow.set(year, month, day)
-                    }
+                { p0, year, month, day ->
+                    date.text = "$day / ${month + 1} / $year"
+                    timeNow.set(year, month, day)
                 },
                 timeNow.get(Calendar.YEAR),
                 timeNow.get(Calendar.MONTH),
@@ -89,7 +86,7 @@ class BottomSheet : BottomSheetDialogFragment() {
         }
     }
 
-    fun validate(): Boolean {
+    private fun validate(): Boolean {
         var isValidate: Boolean = true
         if (title.editText?.text.isNullOrBlank()) {
             isValidate = false
@@ -109,7 +106,11 @@ class BottomSheet : BottomSheetDialogFragment() {
         return isValidate
     }
 
-    fun addTask() {
+    private fun addTask() {
+        timeNow.set(Calendar.HOUR, 0)
+        timeNow.set(Calendar.MINUTE, 0)
+        timeNow.set(Calendar.SECOND, 0)
+        timeNow.set(Calendar.MILLISECOND, 0)
         TaskDatabase.createDatabase(requireContext()).tasksDao().addTask(
             Tasks(
                 title = title.editText?.text.toString(),
