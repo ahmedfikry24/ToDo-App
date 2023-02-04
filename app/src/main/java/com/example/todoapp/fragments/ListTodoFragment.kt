@@ -1,5 +1,7 @@
 package com.example.todoapp.fragments
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.todoapp.R
 import com.example.todoapp.TasksListAdapter
 import com.example.todoapp.database.TaskDatabase
+import com.example.todoapp.database.model.Tasks
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import java.util.*
@@ -19,8 +22,7 @@ class ListTodoFragment : Fragment() {
     lateinit var calenderView: MaterialCalendarView
     var timeNow: Calendar = Calendar.getInstance()
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_list_todo, container, false)
     }
@@ -31,10 +33,6 @@ class ListTodoFragment : Fragment() {
         initListener()
     }
 
-    override fun onResume() {
-        super.onResume()
-        getTasksByDate()
-    }
 
     fun init(view: View) {
         tasksRecycler = view.findViewById(R.id.tasks_main_recycler)
@@ -53,6 +51,23 @@ class ListTodoFragment : Fragment() {
                 getTasksByDate()
             }
         }
+        tasksAdapter.onSwipe = object : TasksListAdapter.OnSwipe {
+            override fun onOpen(Task: Tasks) {
+                AlertDialog.Builder(activity).setTitle("Alert")
+                    .setMessage("Are you sure that you want delete this Task ?")
+                    .setPositiveButton("ok", object : DialogInterface.OnClickListener {
+                        override fun onClick(p0: DialogInterface?, p1: Int) {
+                            deleteTask(Task)
+                            getTasksByDate()
+                        }
+                    }).show()
+
+            }
+        }
+    }
+
+    fun deleteTask(Task: Tasks) {
+        TaskDatabase.createDatabase(requireContext()).tasksDao().deleteTask(Task)
     }
 
     fun getTasksByDate() {

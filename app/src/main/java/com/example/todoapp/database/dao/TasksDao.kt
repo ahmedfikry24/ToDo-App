@@ -9,7 +9,7 @@ interface TasksDao {
     fun addTask(tasks: Tasks)
 
     @Delete
-    fun deleteTask(tasks: Tasks)
+    fun deleteTask(Task: Tasks)
 
     @Update
     fun updateTask(tasks: Tasks)
