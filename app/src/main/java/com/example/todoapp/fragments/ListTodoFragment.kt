@@ -1,7 +1,6 @@
 package com.example.todoapp.fragments
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -55,14 +54,22 @@ class ListTodoFragment : Fragment() {
             override fun onOpen(Task: Tasks) {
                 AlertDialog.Builder(activity).setTitle("Alert")
                     .setMessage("Are you sure that you want delete this Task ?")
-                    .setPositiveButton("ok", object : DialogInterface.OnClickListener {
-                        override fun onClick(p0: DialogInterface?, p1: Int) {
-                            deleteTask(Task)
-                            getTasksByDate()
-                        }
-                    }).show()
-
+                    .setPositiveButton(
+                        "ok"
+                    ) { p0, p1 ->
+                        deleteTask(Task)
+                        p0.dismiss()
+                        getTasksByDate()
+                    }.show()
             }
+        }
+
+        tasksAdapter.onImageClick = object : TasksListAdapter.OnImageClick {
+            override fun onImageClick(id: Int) {
+                updateTask(id)
+                getTasksByDate()
+            }
+
         }
     }
 
@@ -81,5 +88,9 @@ class ListTodoFragment : Fragment() {
         val tasks = TaskDatabase.createDatabase(requireActivity()).tasksDao()
             .getTasksByDate(timeNow.timeInMillis)
         tasksAdapter.changeItems(tasks)
+    }
+
+    fun updateTask(id: Int) {
+        val tasks = TaskDatabase.createDatabase(requireContext()).tasksDao().updateTask(true, id)
     }
 }

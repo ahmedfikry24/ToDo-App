@@ -78,7 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
-                android:background="@drawable/done_image_checklist"
+                android:background="@drawable/not_done_image_checklist"
                 android:paddingHorizontal="22dp"
                 android:paddingVertical="8dp"
                 android:src="@drawable/icon_check"

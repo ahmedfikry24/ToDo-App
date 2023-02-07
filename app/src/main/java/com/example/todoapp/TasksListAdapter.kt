@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -30,14 +31,22 @@ class TasksListAdapter(var items: List<Tasks>?) : Adapter<TasksListAdapter.viewH
             }
 
             override fun onClose() {}
-
         })
+        holder.image.setOnClickListener {
+            onImageClick?.onImageClick(items?.get(position)?.id!!)
+        }
     }
 
     var onSwipe: OnSwipe? = null
 
     interface OnSwipe {
         fun onOpen(Task: Tasks)
+    }
+
+    var onImageClick: OnImageClick? = null
+
+    interface OnImageClick {
+        fun onImageClick(id: Int)
     }
 
     override fun getItemCount(): Int = items?.size ?: 0
@@ -52,6 +61,7 @@ class TasksListAdapter(var items: List<Tasks>?) : Adapter<TasksListAdapter.viewH
         val title: TextView = view.findViewById(R.id.task_title)
         val description: TextView = view.findViewById(R.id.task_des)
         val swipeLayout: SwipeLayout = view.findViewById(R.id.swipe_layout)
+        val image: ImageView = view.findViewById(R.id.image_checklist)
 
     }
 }
