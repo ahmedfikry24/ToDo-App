@@ -17,7 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import java.util.*
 
-class BottomSheet : BottomSheetDialogFragment() {
+class EditTaskBottomSheetFragment : BottomSheetDialogFragment() {
     lateinit var date: TextView
     lateinit var title: TextInputLayout
     lateinit var descreption: TextInputLayout
@@ -27,7 +27,7 @@ class BottomSheet : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_bottom_sheet, container, false)
+        return inflater.inflate(R.layout.fragment_edit_task_bottom_sheet, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,10 +37,11 @@ class BottomSheet : BottomSheetDialogFragment() {
 
     }
 
-    var DismissListener: OnDismissListener? = null
     override fun onDismiss(dialog: DialogInterface) {
         DismissListener?.onDismiss()
     }
+
+    var DismissListener: OnDismissListener? = null
 
     interface OnDismissListener {
         fun onDismiss()
@@ -75,14 +76,14 @@ class BottomSheet : BottomSheetDialogFragment() {
         addTaskButton.setOnClickListener {
             if (!validate()) return@setOnClickListener
             addTask()
-            AlertDialog.Builder(activity).setMessage("task added successfully")
+            AlertDialog.Builder(activity).setMessage("task edited successfully")
                 .setIcon(R.drawable.icon_check)
                 .setPositiveButton(
                     R.string.ok
                 ) { p0, p1 ->
                     p0.dismiss()
                     dismiss()
-                }.show().setCancelable(false)
+                }.show().setCancelable(true)
         }
     }
 

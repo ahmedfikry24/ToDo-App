@@ -35,6 +35,10 @@ class TasksListAdapter(var items: List<Tasks>?) : Adapter<TasksListAdapter.viewH
         holder.image.setOnClickListener {
             onImageClick?.onImageClick(items?.get(position)?.id!!)
         }
+
+        holder.itemView.setOnClickListener {
+            onItemClick?.onItemClick(position)
+        }
     }
 
     var onSwipe: OnSwipe? = null
@@ -47,6 +51,12 @@ class TasksListAdapter(var items: List<Tasks>?) : Adapter<TasksListAdapter.viewH
 
     interface OnImageClick {
         fun onImageClick(id: Int)
+    }
+
+    var onItemClick: OnItemClick? = null
+
+    interface OnItemClick {
+        fun onItemClick(position: Int)
     }
 
     override fun getItemCount(): Int = items?.size ?: 0

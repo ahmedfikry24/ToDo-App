@@ -69,6 +69,12 @@ class ListTodoFragment : Fragment() {
                 updateTask(id)
                 getTasksByDate()
             }
+        }
+        tasksAdapter.onItemClick = object : TasksListAdapter.OnItemClick {
+            override fun onItemClick(position: Int) {
+                val editTaskBottomSheet: EditTaskBottomSheetFragment = EditTaskBottomSheetFragment()
+                //   editTaskBottomSheet.show(supp ,"")
+            }
 
         }
     }
