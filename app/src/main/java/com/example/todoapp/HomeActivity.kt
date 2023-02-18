@@ -11,9 +11,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class HomeActivity : AppCompatActivity() {
-    lateinit var bottomNavigation: BottomNavigationView
-    lateinit var addButton: FloatingActionButton
-    lateinit var titleText: TextView
+    private lateinit var bottomNavigation: BottomNavigationView
+    private lateinit var addButton: FloatingActionButton
+    private lateinit var titleText: TextView
     var tasksListFragment = ListTodoFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,20 +24,20 @@ class HomeActivity : AppCompatActivity() {
 
     }
 
-    fun init() {
+    private fun init() {
         bottomNavigation = findViewById(R.id.main_botton_navigation)
         addButton = findViewById(R.id.floating_button)
         titleText = findViewById(R.id.title_text)
         titleText.text = "Tasks List"
     }
 
-    fun replaceFragments(fragment: Fragment) {
+    private fun replaceFragments(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_fragment, fragment)
             .commit()
     }
 
-    fun initListeners() {
+    private fun initListeners() {
         bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.listIcon -> {

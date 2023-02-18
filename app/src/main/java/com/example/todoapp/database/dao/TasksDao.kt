@@ -11,11 +11,8 @@ interface TasksDao {
     @Delete
     fun deleteTask(Task: Tasks)
 
-    @Query("UPDATE Tasks SET isDone =:isDone WHERE id = :id")
-    fun updateTask(isDone: Boolean, id: Int)
-
-    @Query("SELECT * FROM Tasks")
-    fun getTasks(): List<Tasks>
+    @Update
+    fun updateTask(Task: Tasks)
 
     @Query("select * from Tasks where date =:date ")
     fun getTasksByDate(date: Long): List<Tasks>

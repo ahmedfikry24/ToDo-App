@@ -2,6 +2,7 @@ package com.example.todoapp.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -65,15 +66,14 @@ class ListTodoFragment : Fragment() {
         }
 
         tasksAdapter.onImageClick = object : TasksListAdapter.OnImageClick {
-            override fun onImageClick(id: Int) {
-                updateTask(id)
+            override fun onImageClick(Task: Tasks) {
+                updateTask(Task)
                 getTasksByDate()
             }
         }
         tasksAdapter.onItemClick = object : TasksListAdapter.OnItemClick {
-            override fun onItemClick(position: Int) {
-                val editTaskBottomSheet: EditTaskBottomSheetFragment = EditTaskBottomSheetFragment()
-                //   editTaskBottomSheet.show(supp ,"")
+            override fun onItemClick(Task: Tasks) {
+
             }
 
         }
@@ -96,7 +96,9 @@ class ListTodoFragment : Fragment() {
         tasksAdapter.changeItems(tasks)
     }
 
-    fun updateTask(id: Int) {
-        val tasks = TaskDatabase.createDatabase(requireContext()).tasksDao().updateTask(true, id)
+    fun updateTask(Task: Tasks) {
+        Log.e("update", "successfully")
+        Task.isDone = true
+        val tasks = TaskDatabase.createDatabase(requireContext()).tasksDao().updateTask(Task)
     }
 }

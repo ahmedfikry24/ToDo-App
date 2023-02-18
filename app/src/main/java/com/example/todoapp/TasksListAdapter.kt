@@ -33,11 +33,11 @@ class TasksListAdapter(var items: List<Tasks>?) : Adapter<TasksListAdapter.viewH
             override fun onClose() {}
         })
         holder.image.setOnClickListener {
-            onImageClick?.onImageClick(items?.get(position)?.id!!)
+            onImageClick?.onImageClick(items?.get(position)!!)
         }
 
         holder.itemView.setOnClickListener {
-            onItemClick?.onItemClick(position)
+            onItemClick?.onItemClick(items?.get(position)!!)
         }
     }
 
@@ -50,13 +50,13 @@ class TasksListAdapter(var items: List<Tasks>?) : Adapter<TasksListAdapter.viewH
     var onImageClick: OnImageClick? = null
 
     interface OnImageClick {
-        fun onImageClick(id: Int)
+        fun onImageClick(Task: Tasks)
     }
 
     var onItemClick: OnItemClick? = null
 
     interface OnItemClick {
-        fun onItemClick(position: Int)
+        fun onItemClick(Task: Tasks)
     }
 
     override fun getItemCount(): Int = items?.size ?: 0
