@@ -32,6 +32,17 @@ class TasksListAdapter(var items: List<Tasks>?) : Adapter<TasksListAdapter.viewH
 
             override fun onClose() {}
         })
+        if (items!!.get(position).isDone) {
+            holder.image.setBackgroundResource(R.drawable.done_image_checklist)
+        } else {
+//            if (sd < Build.VERSION_CODES.JELLY_BEAN) {
+//                //holder.image.setBackgroundDrawable(holder.image.context.getDrawable(R.drawable.done_image_checklist))
+//            } else {
+//                //holder(holder.image.context.getDrawable(R.drawable.done_image_checklist))
+//            }
+            holder.image.visibility = View.VISIBLE
+        }
+
         holder.image.setOnClickListener {
             onImageClick?.onImageClick(items?.get(position)!!)
         }

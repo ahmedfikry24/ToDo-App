@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.example.todoapp.HomeActivity
 import com.example.todoapp.R
 import com.example.todoapp.TasksListAdapter
 import com.example.todoapp.database.TaskDatabase
@@ -31,6 +32,7 @@ class ListTodoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         init(view)
         initListener()
+
     }
 
 
@@ -43,6 +45,7 @@ class ListTodoFragment : Fragment() {
     }
 
     fun initListener() {
+        getTasksByDate()
         calenderView.setOnDateChangedListener { widget, date, selected ->
             if (selected) {
                 timeNow.set(Calendar.YEAR, date.year)
@@ -73,6 +76,7 @@ class ListTodoFragment : Fragment() {
         }
         tasksAdapter.onItemClick = object : TasksListAdapter.OnItemClick {
             override fun onItemClick(Task: Tasks) {
+                val homeActivity = activity as HomeActivity
 
             }
 
