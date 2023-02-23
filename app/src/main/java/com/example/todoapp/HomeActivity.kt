@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.todoapp.fragments.BottomSheet
+import com.example.todoapp.fragments.AddBottomSheet
 import com.example.todoapp.fragments.ListTodoFragment
 import com.example.todoapp.fragments.SettingsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -53,9 +53,9 @@ class HomeActivity : AppCompatActivity() {
         }
 
         addButton.setOnClickListener {
-            val bottomSheetDialog: BottomSheet = BottomSheet()
-            bottomSheetDialog.show(supportFragmentManager, "")
-            bottomSheetDialog.DismissListener = object : BottomSheet.OnDismissListener {
+            val addBottomSheetDialog: AddBottomSheet = AddBottomSheet()
+            addBottomSheetDialog.show(supportFragmentManager, "")
+            addBottomSheetDialog.DismissListener = object : AddBottomSheet.OnDismissListener {
                 override fun onDismiss() {
                     tasksListFragment.getTasksByDate()
                 }

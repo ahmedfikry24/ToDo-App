@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.todoapp.database.model.Tasks
@@ -32,22 +33,18 @@ class TasksListAdapter(var items: List<Tasks>?) : Adapter<TasksListAdapter.viewH
 
             override fun onClose() {}
         })
+
         if (items!!.get(position).isDone) {
             holder.image.setBackgroundResource(R.drawable.done_image_checklist)
         } else {
-//            if (sd < Build.VERSION_CODES.JELLY_BEAN) {
-//                //holder.image.setBackgroundDrawable(holder.image.context.getDrawable(R.drawable.done_image_checklist))
-//            } else {
-//                //holder(holder.image.context.getDrawable(R.drawable.done_image_checklist))
-//            }
-            holder.image.visibility = View.VISIBLE
+            holder.image.setBackgroundResource(R.drawable.not_done_image_checklist)
         }
 
         holder.image.setOnClickListener {
             onImageClick?.onImageClick(items?.get(position)!!)
         }
 
-        holder.itemView.setOnClickListener {
+        holder.card.setOnClickListener {
             onItemClick?.onItemClick(items?.get(position)!!)
         }
     }
@@ -83,6 +80,7 @@ class TasksListAdapter(var items: List<Tasks>?) : Adapter<TasksListAdapter.viewH
         val description: TextView = view.findViewById(R.id.task_des)
         val swipeLayout: SwipeLayout = view.findViewById(R.id.swipe_layout)
         val image: ImageView = view.findViewById(R.id.image_checklist)
+        val card : CardView = view.findViewById(R.id.card)
 
     }
 }

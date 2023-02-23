@@ -76,7 +76,10 @@ class ListTodoFragment : Fragment() {
         }
         tasksAdapter.onItemClick = object : TasksListAdapter.OnItemClick {
             override fun onItemClick(Task: Tasks) {
+                Log.e("press" , "aaaaaaaaaaaaaa")
                 val homeActivity = activity as HomeActivity
+                val editBottomSheet = EditBottomSheet(Task)
+                editBottomSheet.show(homeActivity.supportFragmentManager , null)
 
             }
 

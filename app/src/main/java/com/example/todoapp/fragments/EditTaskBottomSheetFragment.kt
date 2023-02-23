@@ -17,17 +17,17 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import java.util.*
 
-class AddBottomSheet : BottomSheetDialogFragment() {
+class EditBottomSheet(task: Tasks) : BottomSheetDialogFragment() {
     private lateinit var date: TextView
     private lateinit var title: TextInputLayout
     private lateinit var description: TextInputLayout
-    private lateinit var addTaskButton: Button
+    private lateinit var editTaskButton: Button
     private var timeNow: Calendar = Calendar.getInstance()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_add_task_bottom_sheet, container, false)
+        return inflater.inflate(R.layout.fragment_edit_task_bottom_sheet, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,11 +37,11 @@ class AddBottomSheet : BottomSheetDialogFragment() {
 
     }
 
-    var DismissListener: OnDismissListener? = null
     override fun onDismiss(dialog: DialogInterface) {
         DismissListener?.onDismiss()
     }
 
+    var DismissListener: OnDismissListener? = null
     interface OnDismissListener {
         fun onDismiss()
     }
@@ -54,7 +54,7 @@ class AddBottomSheet : BottomSheetDialogFragment() {
         }"
         title = view.findViewById(R.id.title_textInput)
         description = view.findViewById(R.id.des_textInput)
-        addTaskButton = view.findViewById(R.id.set_date_button)
+        editTaskButton = view.findViewById(R.id.set_date_button)
 
     }
 
@@ -72,7 +72,7 @@ class AddBottomSheet : BottomSheetDialogFragment() {
                 timeNow.get(Calendar.DAY_OF_MONTH)
             ).show()
         }
-        addTaskButton.setOnClickListener {
+        editTaskButton.setOnClickListener {
             if (!validate()) return@setOnClickListener
             addTask()
             AlertDialog.Builder(activity).setMessage("task added successfully")
