@@ -80,6 +80,12 @@ class ListTodoFragment : Fragment() {
                 val homeActivity = activity as HomeActivity
                 val editBottomSheet = EditBottomSheet(Task)
                 editBottomSheet.show(homeActivity.supportFragmentManager , null)
+                editBottomSheet.DismissListener = object : EditBottomSheet.OnDismissListener{
+                    override fun onDismiss() {
+                       getTasksByDate()
+                    }
+
+                }
 
             }
 

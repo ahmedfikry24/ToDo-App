@@ -17,12 +17,17 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import java.util.*
 
-class EditBottomSheet(task: Tasks) : BottomSheetDialogFragment() {
+class EditBottomSheet(val task: Tasks) : BottomSheetDialogFragment() {
     private lateinit var date: TextView
     private lateinit var title: TextInputLayout
     private lateinit var description: TextInputLayout
     private lateinit var editTaskButton: Button
     private var timeNow: Calendar = Calendar.getInstance()
+
+    init {
+        timeNow.timeInMillis = task.date
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,6 +47,7 @@ class EditBottomSheet(task: Tasks) : BottomSheetDialogFragment() {
     }
 
     var DismissListener: OnDismissListener? = null
+
     interface OnDismissListener {
         fun onDismiss()
     }
@@ -54,6 +60,8 @@ class EditBottomSheet(task: Tasks) : BottomSheetDialogFragment() {
         }"
         title = view.findViewById(R.id.title_textInput)
         description = view.findViewById(R.id.des_textInput)
+        title.editText?.setText(task.title, TextView.BufferType.EDITABLE)
+        description.editText?.setText(task.description, TextView.BufferType.EDITABLE)
         editTaskButton = view.findViewById(R.id.set_date_button)
 
     }
@@ -74,7 +82,7 @@ class EditBottomSheet(task: Tasks) : BottomSheetDialogFragment() {
         }
         editTaskButton.setOnClickListener {
             if (!validate()) return@setOnClickListener
-            addTask()
+            editTask()
             AlertDialog.Builder(activity).setMessage("task added successfully")
                 .setIcon(R.drawable.icon_check)
                 .setPositiveButton(
@@ -106,17 +114,16 @@ class EditBottomSheet(task: Tasks) : BottomSheetDialogFragment() {
         return isValidate
     }
 
-    private fun addTask() {
+    private fun editTask() {
         timeNow.set(Calendar.HOUR, 0)
         timeNow.set(Calendar.MINUTE, 0)
         timeNow.set(Calendar.SECOND, 0)
         timeNow.set(Calendar.MILLISECOND, 0)
-        TaskDatabase.createDatabase(requireContext()).tasksDao().addTask(
-            Tasks(
-                title = title.editText?.text.toString(),
-                description = description.editText?.text.toString(),
-                date = timeNow.timeInMillis,
-            )
+        task.title = title.editText?.text.toString()
+        task.description = description.editText?.text.toString()
+        task.date = timeNow.timeInMillis
+        TaskDatabase.createDatabase(requireContext()).tasksDao().updateTask(
+            task
         )
     }
 }
